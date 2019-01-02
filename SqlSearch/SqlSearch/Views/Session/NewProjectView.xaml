@@ -11,7 +11,8 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:domain="clr-namespace:SqlSearch.ViewModels"
              d:DataContext="{d:DesignInstance domain:SessionViewModel}"
-             FontFamily="{DynamicResource MaterialDesignFont}">
+             FontFamily="{DynamicResource MaterialDesignFont}"
+             xmlns:passH="clr-namespace:SqlSearch.BindingHelpers">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -25,14 +26,14 @@
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="297*"/>
-            <RowDefinition Height="52*"/>
+            <RowDefinition Height="274*"/>
+            <RowDefinition Height="75*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="23*"/>
             <ColumnDefinition Width="12*"/>
         </Grid.ColumnDefinitions>
-        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.RowSpan="2">
+        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.RowSpan="2" IsEnabled="{Binding IsConnecting, Converter={StaticResource BooleanInverter}}">
             <TextBox Grid.Column="0"
                      materialDesign:HintAssist.Hint="Sql Server"
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="10"
@@ -43,7 +44,7 @@
                      Text="{Binding SelectedConnection.Database}"/>
             <CheckBox
                 x:Name="MaterialDesignFilledTextFieldTextBoxEnabledComboBox"
-                IsChecked="True"
+                IsChecked="{Binding SelectedConnection.IntegratedSecurity}"
                 Margin="10">
                 Windows Authentication
             </CheckBox>
@@ -53,20 +54,23 @@
                 TextWrapping="Wrap"
                 Margin="10"
                 materialDesign:HintAssist.Hint="Username"
+                Text="{Binding SelectedConnection.Username}"
                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                 IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignFilledTextFieldTextBoxEnabledComboBox, Converter={StaticResource BooleanInverter}}" />
             <PasswordBox
                 VerticalAlignment="Top"
                 Margin="10"
                 Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
+                mah:PasswordBoxHelper.CapsLockWarningToolTip="CAPS LOCK"
+                PasswordChanged="PasswordBox_PasswordChanged"
                 IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignFilledTextFieldTextBoxEnabledComboBox, Converter={StaticResource BooleanInverter}}"
                 materialDesign:HintAssist.Hint="Password" />
         </StackPanel>
 
         <StackPanel Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-
             <!-- and here's another -->
             <ItemsControl
+                IsEnabled="{Binding IsConnecting, Converter={StaticResource BooleanInverter}}"
                 ItemsSource="{Binding ConnectionList}"
                 Grid.IsSharedSizeScope="True">
                 <ItemsControl.ItemTemplate>
@@ -114,13 +118,14 @@
         </StackPanel>
 
         <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" HorizontalAlignment="Center">
+            <WrapPanel HorizontalAlignment="Center">
+                <Label HorizontalContentAlignment="Center" Content="{Binding ConnectionTest}"/>
+            </WrapPanel>
             <WrapPanel  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Button Content="Cancel" Style="{StaticResource MaterialDesignRaisedAccentButton}" cal:Message.Attach="[Event Click] = [OpenVM('BlankSessionView')]" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                <Button Content="Test" cal:Message.Attach="[Event Click] = [OpenVM('BlankSessionView')]" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                <Button Content="Create" cal:Message.Attach="[Event Click] = [OpenVM('BlankSessionView')]" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                <Button Content="Test" cal:Message.Attach="[Event Click] = [TestConnection]" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                <Button Content="Create" cal:Message.Attach="[Event Click] = [OpenConnection('false')]" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Top"/>
             </WrapPanel>
         </StackPanel>
-        
-
     </Grid>
 </UserControl>

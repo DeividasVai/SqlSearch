@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SqlSearch.Components
@@ -10,12 +11,14 @@ namespace SqlSearch.Components
     public class SqlConnector
     {
         public SqlConnection Connection { get; set; }
-        public bool OpenConnection(ConnectionInformation conInfo)
+        public async Task<bool> OpenConnection(ConnectionInformation conInfo)
         {
+            CancellationTokenSource source = new CancellationTokenSource();
+            CancellationToken token = source.Token;
             try
             {
                 Connection = new SqlConnection(conInfo.ConnectionString);
-                Connection.Open();
+                await Connection.OpenAsync(token);
                 return true;
             }
             catch (SqlException e)

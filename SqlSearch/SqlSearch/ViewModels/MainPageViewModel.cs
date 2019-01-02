@@ -12,7 +12,7 @@ using SqlSearch.Views;
 namespace SqlSearch.ViewModels
 {
     [Export(typeof(MainPageViewModel))]
-    public class MainPageViewModel : Conductor<object>
+    public class MainPageViewModel : PropertyChangedBase
     {
         public string WindowTitle
         {
@@ -45,23 +45,24 @@ namespace SqlSearch.ViewModels
             }
         }
 
-        public ProjectSession ProjectSession
-        {
-            get => _projectSession;
-            set
-            {
-                if (_projectSession == value) return;
-                _projectSession = value;
-                NotifyOfPropertyChange(() => ProjectSession);
-            }
-        }
+        //public ProjectSession ProjectSession
+        //{
+        //    get => _projectSession;
+        //    set
+        //    {
+        //        if (_projectSession == value) return;
+        //        _projectSession = value;
+        //        NotifyOfPropertyChange(() => ProjectSession);
+        //    }
+        //}
+        //private ProjectSession _projectSession;
+
 
         private readonly IWindowManager _windowManager;
         private readonly IEventAggregator _eventAggregator;
         private string _windowTitle;
         private SessionViewModel _sessVM;
         private string _viewName;
-        private ProjectSession _projectSession;
 
         [ImportingConstructor]
         public MainPageViewModel(IWindowManager windowManager, IEventAggregator eventAggregator)
@@ -84,11 +85,6 @@ namespace SqlSearch.ViewModels
                 SessVM = new SessionViewModel();
             }
             ViewName = viewName;
-        }
-
-        public void CloseChild()
-        {
-            SessVM = null;
         }
 
     }

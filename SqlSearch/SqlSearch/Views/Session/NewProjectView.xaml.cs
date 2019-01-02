@@ -24,5 +24,11 @@ namespace SqlSearch.Views.Session
         {
             InitializeComponent();
         }
+
+        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (this.DataContext != null)
+            { ((dynamic)this.DataContext).SelectedConnection.Password = ((PasswordBox)sender).Password; }
+        }
     }
 }

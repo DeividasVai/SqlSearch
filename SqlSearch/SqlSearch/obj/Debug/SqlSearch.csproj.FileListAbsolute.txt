@@ -38,6 +38,5 @@ E:\repos\SqlSearch\SqlSearch\SqlSearch\obj\Debug\Views\MainPage.g.cs
 E:\repos\SqlSearch\SqlSearch\SqlSearch\obj\Debug\Views\MainPage.baml
 E:\repos\SqlSearch\SqlSearch\SqlSearch\obj\Debug\Views\Session\BlankSessionView.g.cs
 E:\repos\SqlSearch\SqlSearch\SqlSearch\obj\Debug\Views\Session\BlankSessionView.baml
-E:\repos\SqlSearch\SqlSearch\SqlSearch\obj\Debug\SqlSearch.csprojAssemblyReference.cache
 E:\repos\SqlSearch\SqlSearch\SqlSearch\obj\Debug\Views\Session\NewProjectView.g.cs
 E:\repos\SqlSearch\SqlSearch\SqlSearch\obj\Debug\Views\Session\NewProjectView.baml

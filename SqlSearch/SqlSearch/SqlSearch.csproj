@@ -68,6 +68,7 @@
     <Reference Include="System.Linq, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Linq.4.3.0\lib\net463\System.Linq.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net462\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -89,7 +90,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BindingHelpers\PasswordHelper.cs" />
     <Compile Include="Components\ConnectionInformation.cs" />
+    <Compile Include="Components\FileManaging\FileManager.cs" />
     <Compile Include="Components\ProjectSession.cs" />
     <Compile Include="Components\SqlConnector.cs" />
     <Compile Include="Converters\BooleanInverter.cs" />

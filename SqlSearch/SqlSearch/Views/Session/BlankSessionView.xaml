@@ -22,7 +22,7 @@
     </UserControl.Resources>
     <Grid>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button Content="Open Project" Margin="10" HorizontalAlignment="Left" Width="123" Height="Auto"/>
+            <Button Content="Open Project" cal:Message.Attach="[Event Click] = [OpenExistingProject]" Margin="10" HorizontalAlignment="Left" Width="123" Height="Auto"/>
             <Button Content="New Project" cal:Message.Attach="[Event Click] = [OpenVM('NewProjectView')]" Margin="10" VerticalAlignment="Top" HorizontalAlignment="Right" Height="Auto" Width="122"/>
         </StackPanel>
         <!-- cal:Message.Attach="[Event Click] = [Action OpenVM('View1')]" -->
