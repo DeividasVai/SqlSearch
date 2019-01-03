@@ -40,3 +40,6 @@ E:\repos\SqlSearch\SqlSearch\SqlSearch\obj\Debug\Views\Session\BlankSessionView.
 E:\repos\SqlSearch\SqlSearch\SqlSearch\obj\Debug\Views\Session\BlankSessionView.baml
 E:\repos\SqlSearch\SqlSearch\SqlSearch\obj\Debug\Views\Session\NewProjectView.g.cs
 E:\repos\SqlSearch\SqlSearch\SqlSearch\obj\Debug\Views\Session\NewProjectView.baml
+E:\repos\SqlSearch\SqlSearch\SqlSearch\obj\Debug\Views\Session\SessionView.g.cs
+E:\repos\SqlSearch\SqlSearch\SqlSearch\obj\Debug\Views\Session\SessionView.baml
+E:\repos\SqlSearch\SqlSearch\SqlSearch\obj\Debug\SqlSearch.csprojAssemblyReference.cache

@@ -94,6 +94,7 @@
     <Compile Include="Components\ConnectionInformation.cs" />
     <Compile Include="Components\FileManaging\FileManager.cs" />
     <Compile Include="Components\ProjectSession.cs" />
+    <Compile Include="Components\SearchCriteria.cs" />
     <Compile Include="Components\SqlConnector.cs" />
     <Compile Include="Converters\BooleanInverter.cs" />
     <Compile Include="Views\Session\BlankSessionView.xaml.cs">
@@ -101,6 +102,9 @@
     </Compile>
     <Compile Include="Views\Session\NewProjectView.xaml.cs">
       <DependentUpon>NewProjectView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Session\SessionView.xaml.cs">
+      <DependentUpon>SessionView.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -122,6 +126,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Session\NewProjectView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Session\SessionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

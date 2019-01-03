@@ -32,6 +32,25 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </metro:MetroWindow.Resources>
+    <metro:MetroWindow.Flyouts>
+        <metro:FlyoutsControl>
+            <metro:Flyout Position="Bottom"
+                          CloseButtonVisibility="Collapsed"
+                          TitleVisibility="Collapsed"
+                          Background="{DynamicResource SemiTransparentGreyBrush}"
+                          materialDesign:FlyoutAssist.HeaderColorMode="PrimaryLight"
+                          IsOpen="{Binding SessVM.ShowFlyout}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="Auto">
+                    <WrapPanel HorizontalAlignment="Left" Margin="10">
+                        <Button cal:Message.Attach="CloseFlyout" Style="{StaticResource MaterialDesignRaisedDarkButton}" Width="Auto" Margin="10" Content="CLOSE"/>
+                    </WrapPanel >
+                    <WrapPanel HorizontalAlignment="Right" Margin="10" VerticalAlignment="Center">
+                        <TextBlock Margin="10" HorizontalAlignment="Left" Text="{Binding SessVM.FlyoutContent}"/>
+                    </WrapPanel>
+                </StackPanel>
+            </metro:Flyout>
+        </metro:FlyoutsControl>
+    </metro:MetroWindow.Flyouts>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="16*"/>
@@ -39,16 +58,73 @@
         </Grid.RowDefinitions>
         <Menu Grid.RowSpan="2">
             <MenuItem Header="Project">
-                <MenuItem Header="Open" ></MenuItem>
-                <MenuItem Header="New"></MenuItem>
+                <MenuItem Header="Connect" cal:Message.Attach="OpenVM('NewProjectView')" IsEnabled="{Binding SessVM.IsConnected, Converter={StaticResource BooleanInverter}}"></MenuItem>
+                <Separator></Separator>
+                <MenuItem Header="Close connection" IsEnabled="{Binding SessVM.IsConnected}" cal:Message.Attach="CloseConnection"></MenuItem>
             </MenuItem>
             <MenuItem Header="Additionals">
-                <MenuItem Header="Save configuration" cal:Message.Attach="CloseApp"></MenuItem>
+                <MenuItem Header="Reload configurations" IsEnabled="{Binding SessVM.IsConnected, Converter={StaticResource BooleanInverter}}" cal:Message.Attach="LoadConfigurations"></MenuItem>
             </MenuItem>
         </Menu>
         <ContentControl cal:View.Model="{Binding SessVM}" cal:View.Context="{Binding ViewName}" Grid.Row="1" Margin="10"/>
     </Grid>
 </metro:MetroWindow>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -20,9 +20,19 @@ namespace SqlSearch.Components
                 NotifyOfPropertyChange(() => Connection);
             }
         }
-
         public ConnectionInformation ConnectionInformation { get; set; }
+        public SearchCriteria SearchCriteria
+        {
+            get => _searchCriteria;
+            set
+            {
+                if (_searchCriteria == value) return;
+                _searchCriteria = value;
+                NotifyOfPropertyChange(() => SearchCriteria);
+            }
+        }
 
+        private SearchCriteria _searchCriteria;
         private SqlConnector _sqlConnector;
 
         public ProjectSession()
@@ -46,5 +56,7 @@ namespace SqlSearch.Components
         }
 
         #endregion
+
+
     }
 }

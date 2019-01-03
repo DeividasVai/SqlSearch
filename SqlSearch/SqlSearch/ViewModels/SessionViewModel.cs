@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Threading;
@@ -14,9 +15,18 @@ namespace SqlSearch.ViewModels
     [Export(typeof(SessionViewModel))]
     public class SessionViewModel : PropertyChangedBase
     {
-        public BindableCollection<ConnectionInformation> ConnectionList
+        enum VisibilityStrings
         {
-            get => _connectionList;
+            Collapsed, Hidden, Visible
+        }
+
+        public List<ConnectionInformation> ConnectionList
+        {
+            get
+            {
+                IEnumerable<ConnectionInformation> sorted = _connectionList;
+                return sorted.OrderByDescending(con => con.LastUsed).ToList();
+            }
             set
             {
                 if (_connectionList == value) return;
@@ -74,6 +84,16 @@ namespace SqlSearch.ViewModels
                 NotifyOfPropertyChange(() => FileManager);
             }
         }
+        public MainPageViewModel MainPageViewModel
+        {
+            get => _mainPageViewModel;
+            set
+            {
+                if (_mainPageViewModel == value) return;
+                _mainPageViewModel = value;
+                NotifyOfPropertyChange(() => MainPageViewModel);
+            }
+        }
         public bool IsConnecting
         {
             get => _isConnecting;
@@ -84,28 +104,99 @@ namespace SqlSearch.ViewModels
                 NotifyOfPropertyChange(() => IsConnecting);
             }
         }
+        public bool IsConnected
+        {
+            get => _isConnected;
+            set
+            {
+                if (_isConnected == value) return;
+                _isConnected = value;
+                NotifyOfPropertyChange(() => IsConnected);
+            }
+        }
+        public bool ShowFlyout
+        {
+            get => _showFlyout;
+            set
+            {
+                if (_showFlyout == value) return;
+                _showFlyout = value;
+                NotifyOfPropertyChange(() => ShowFlyout);
+            }
+        }
+        public string FlyoutContent
+        {
+            get => _flyoutContent;
+            set
+            {
+                if (_flyoutContent == value) return;
+                _flyoutContent = value;
+                NotifyOfPropertyChange(() => FlyoutContent);
+            }
+        }
+        public string ConnectionTestVisibility
+        {
+            get => _connectionTestVisibility;
+            set
+            {
+                if (_connectionTestVisibility == value) return;
+                _connectionTestVisibility = value;
+                NotifyOfPropertyChange(() => ConnectionTestVisibility);
+            }
+        }
 
+        public string ProgressVisibility
+        {
+            get => _progressVisibility;
+            set
+            {
+                if (_progressVisibility == value) return;
+                _progressVisibility = value;
+                NotifyOfPropertyChange(() => ProgressVisibility);
+            }
+        }
+
+        private string _progressVisibility;
+        private string _connectionTestVisibility;
+        private string _flyoutContent;
+        private bool _showFlyout;
         private string _connectionTest;
         private ProjectSession _projectSession;
         private ConnectionInformation _selectedConnection;
-        private BindableCollection<ConnectionInformation> _connectionList;
+        private List<ConnectionInformation> _connectionList;
         private SqlConnector _connection;
         private FileManager _fileManager;
+        private MainPageViewModel _mainPageViewModel;
         private bool _isConnecting;
+        private bool _isConnected;
 
         [ImportingConstructor]
-        public SessionViewModel()
+        public SessionViewModel(MainPageViewModel mainPageViewModel)
         {
             ProjectSession = new ProjectSession();
-            BindableCollection<ConnectionInformation> conInf = new BindableCollection<ConnectionInformation>
+            FileManager = new FileManager();
+            MainPageViewModel = mainPageViewModel;
+
+            IsConnected = false;
+            LoadConfigurations();
+            //ConnectionList = new List<ConnectionInformation>
+            //{
+            //    new ConnectionInformation() {SqlServer = "localhost\\MSSQLEXPRESS", Database = "CLIENT_SQL IMPORT FIX", IsSelected = false, IntegratedSecurity = true, LastUsed = new DateTime(2004, 05, 01)},
+            //    new ConnectionInformation() {SqlServer = "Test2", Database = "Test2.Test", IsSelected = false, IntegratedSecurity = true, LastUsed = new DateTime(2010, 10, 30)},
+            //    new ConnectionInformation() {SqlServer = "Test3", Database = "Test3.Test", IsSelected = false, IntegratedSecurity = false, LastUsed = new DateTime(2012, 12, 31)}
+            //};
+            SelectedConnection = new ConnectionInformation
             {
-                new ConnectionInformation() {SqlServer = "localhost\\MSSQLEXPRESS", Database = "CLIENT_SQL IMPORT FIX", IsSelected = false, IntegratedSecurity = true},
-                new ConnectionInformation() {SqlServer = "Test2", Database = "Test2.Test", IsSelected = false, IntegratedSecurity = true},
-                new ConnectionInformation() {SqlServer = "Test3", Database = "Test3.Test", IsSelected = false, IntegratedSecurity = false}
+                IsSelected = true,
+                LastUsed = DateTime.Parse(DateTime.Now.ToString())
             };
-            ConnectionList = conInf;
-            SelectedConnection = new ConnectionInformation();
+            HideProgress();
             ConnectionTest = "Provide connection information";
+        }
+
+        public void LoadConfigurations()
+        {
+            ConnectionList = FileManager.GetSavedConfigurations();
         }
 
         public void ChangeActiveConnection(ConnectionInformation conInfo)
@@ -116,17 +207,6 @@ namespace SqlSearch.ViewModels
                 information.IsSelected = false;
             }
         }
-
-        public void OpenExistingProject()
-        {
-            FolderBrowserDialog folderDialog = new FolderBrowserDialog();
-            if (folderDialog.ShowDialog() == DialogResult.OK)
-            {
-                var tempPath = folderDialog.SelectedPath;
-                Console.Out.WriteLine(tempPath);
-                // read settings, get connection information
-            }
-        }
         
         public async void TestConnection()
         {
@@ -135,13 +215,18 @@ namespace SqlSearch.ViewModels
             await status;
             ConnectionTest = status.Result ? "Connection available" : "Connection unavailable";
             IsConnecting = false;
+            if (!status.Result)
+                return;
             CloseConnection();
         }
         
         public async Task<bool> OpenConnection(bool isTest = true)
         {
+            if (string.IsNullOrEmpty(SelectedConnection.Database) || string.IsNullOrEmpty(SelectedConnection.SqlServer)) return false;
+            ShowProgress();
             var status = ProjectSession.OpenConnection(SelectedConnection);
             await status;
+            HideProgress();
             if (isTest)
             {
                 return status.Result;
@@ -150,7 +235,11 @@ namespace SqlSearch.ViewModels
             if (status.Result)
             {
                 ProjectSession.ConnectionInformation = SelectedConnection;
-                Console.Out.WriteLine("Connection established");
+                bool saved = FileManager.SaveConfiguration(SelectedConnection);
+                IsConnected = true;
+
+                OpenFlyout(saved ? "Configuration saved and loaded succesfuly" : "Configuration loaded successfuly");
+                MainPageViewModel.OpenVM("SessionView");
             }
             else
             {
@@ -161,10 +250,38 @@ namespace SqlSearch.ViewModels
             // jump to projectView
         }
 
-        public void CloseConnection()
+        public void CloseConnection(bool isTest = true)
         {
             ProjectSession.CloseConnection();
             ProjectSession.ConnectionInformation = null;
+            IsConnected = false;
+            if (isTest) return;
+            OpenFlyout("Connection closed");
+        }
+
+        public void OpenFlyout(string content)
+        {
+            FlyoutContent = content;
+            ShowFlyout = true;
+        }
+
+        public void CloseFlyout()
+        {
+            ShowFlyout = false;
+        }
+
+        private void ShowProgress()
+        {
+            ConnectionTestVisibility = VisibilityStrings.Collapsed.ToString();
+            ProgressVisibility = VisibilityStrings.Visible.ToString();
+        }
+
+        private void HideProgress()
+        {
+            ConnectionTestVisibility = VisibilityStrings.Visible.ToString();
+            ProgressVisibility = VisibilityStrings.Collapsed.ToString();
         }
     }
 }
+
+

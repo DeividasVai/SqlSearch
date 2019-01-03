@@ -40,11 +40,14 @@ namespace SqlSearch.ViewModels
             get => _viewName;
             set
             {
+                if (_viewName == value) return;
                 _viewName = value;
                 NotifyOfPropertyChange(() => ViewName);
             }
         }
 
+
+        
         //public ProjectSession ProjectSession
         //{
         //    get => _projectSession;
@@ -82,10 +85,25 @@ namespace SqlSearch.ViewModels
         {
             if (SessVM == null)
             {
-                SessVM = new SessionViewModel();
+                SessVM = new SessionViewModel(this);
             }
             ViewName = viewName;
         }
 
+        public void CloseConnection()
+        {
+            SessVM.CloseConnection(false);
+            OpenVM();
+        }
+        
+        public void LoadConfigurations()
+        {
+            SessVM.LoadConfigurations();
+        }
+
+        public void CloseFlyout()
+        {
+            SessVM.CloseFlyout();
+        }
     }
 }

@@ -17,6 +17,16 @@ namespace SqlSearch.Components
         public string ConnectionString => IntegratedSecurity
             ? $"Server={SqlServer};Database={Database};Integrated Security=True;"
             : $"Server={SqlServer};Database={Database};User Id={Username};Password={Password};";
+        public DateTime LastUsed
+        {
+            get => _lastUsed;
+            set
+            {
+                if (_lastUsed == value) return;
+                _lastUsed = value;
+                NotifyOfPropertyChange(() => LastUsed);
+            }
+        }
 
         public bool IsSelected
         {
@@ -27,7 +37,8 @@ namespace SqlSearch.Components
                 NotifyOfPropertyChange(() => IsSelected);
             }
         }
-
         private bool _isSelected;
+
+        private DateTime _lastUsed;
     }
 }
