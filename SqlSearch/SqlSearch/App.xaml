@@ -57,6 +57,8 @@
             <SolidColorBrush x:Key="MahApps.Metro.Brushes.ToggleSwitchButton.ThumbIndicatorCheckedBrush.Win10" Color="{DynamicResource Primary500Foreground}" />
 
             <customConverters:BooleanInverter x:Key="BooleanInverter"/>
+            <customConverters:VisibleToCollapsedConverter x:Key="VisibleToCollapsedConverter"/>
+            <customConverters:CollapsedToVisibleConverter x:Key="CollapsedToVisibleConverter"/>
 
             </ResourceDictionary>
     </Application.Resources>

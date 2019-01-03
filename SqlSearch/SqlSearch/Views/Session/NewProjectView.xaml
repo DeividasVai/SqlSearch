@@ -11,8 +11,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:domain="clr-namespace:SqlSearch.ViewModels"
              d:DataContext="{d:DesignInstance domain:SessionViewModel}"
-             FontFamily="{DynamicResource MaterialDesignFont}"
-             xmlns:passH="clr-namespace:SqlSearch.BindingHelpers">
+             FontFamily="{DynamicResource MaterialDesignFont}">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

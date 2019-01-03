@@ -31,14 +31,32 @@ namespace SqlSearch.Components
                 NotifyOfPropertyChange(() => SearchCriteria);
             }
         }
+        public List<SearchResults> SearchResults
+        {
+            get => _searchResults;
+            set
+            {
+                if (_searchResults == value) return;
+                _searchResults = value;
+                NotifyOfPropertyChange(() => SearchResults);
+            }
+        }
 
+        private List<SearchResults> _searchResults;
         private SearchCriteria _searchCriteria;
         private SqlConnector _sqlConnector;
 
         public ProjectSession()
         {
+            Initialization();
+        }
+
+        public void Initialization()
+        {
             Connection = new SqlConnector();
             ConnectionInformation = new ConnectionInformation();
+            SearchCriteria = new SearchCriteria();
+            SearchResults = new List<SearchResults>();
         }
 
         #region Sql connection managing
