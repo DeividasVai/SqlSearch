@@ -87,6 +87,8 @@ namespace SqlSearch.ViewModels
             {
                 SessVM = new SessionViewModel(this);
             }
+            if(viewName.Equals("BlankSessionView"))
+                SessVM.FreshConnectionInformation();
             ViewName = viewName;
         }
 

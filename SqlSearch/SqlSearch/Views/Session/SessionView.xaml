@@ -8,7 +8,10 @@
              d:DesignHeight="349" d:DesignWidth="700"
              xmlns:cal="http://www.caliburnproject.org"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             FontFamily="{DynamicResource MaterialDesignFont}">
+             xmlns:components="clr-namespace:SqlSearch.Components"
+             xmlns:viewModels="clr-namespace:SqlSearch.ViewModels"
+             FontFamily="{DynamicResource MaterialDesignFont}"
+             d:DataContext="{d:DesignInstance viewModels:SessionViewModel}">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -21,8 +24,69 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
-        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <Button></Button>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="61*"/>
+            <RowDefinition Height="288*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="14*"/>
+            <ColumnDefinition Width="22*"/>
+            <ColumnDefinition Width="17*"/>
+            <ColumnDefinition Width="17*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel HorizontalAlignment="Stretch" Grid.Row="0" Grid.Column="0">
+            <TextBox
+                materialDesign:HintAssist.Hint="Schema Name"
+                Text="{Binding ProjectSession.SearchCriteria.SchemaName}"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="10"/>
+        </StackPanel>
+        <StackPanel Grid.Row="0" Grid.Column="1">
+            <TextBox
+                materialDesign:HintAssist.Hint="Table Name"
+                Text="{Binding ProjectSession.SearchCriteria.TableName}"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="10"/>
+        </StackPanel>
+        <StackPanel Grid.Row="0" Grid.Column="2">
+            <TextBox
+                materialDesign:HintAssist.Hint="Column Name"
+                Text="{Binding ProjectSession.SearchCriteria.ColumnName}"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="10"/>
+        </StackPanel>
+        <StackPanel Grid.Row="0" Grid.Column="3">
+            <TextBox
+                materialDesign:HintAssist.Hint="Value"
+                Text="{Binding ProjectSession.SearchCriteria.Value}"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="10"/>
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="1">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button cal:Message.Attach="SearchByCriteria" Visibility="{Binding IsLoadingObjects, Converter={StaticResource VisibleToCollapsedConverter}}"></Button>
+                <ProgressBar
+                    Style="{StaticResource MaterialDesignCircularProgressBar}"
+                    Value="0" Visibility="{Binding IsLoadingObjects, Converter={StaticResource CollapsedToVisibleConverter}}"
+                    IsIndeterminate="True"/>
+            </StackPanel>
+            <ListView
+                HorizontalContentAlignment="Center"
+                HorizontalAlignment="Center"
+                ItemsSource="{Binding ProjectSession.SearchResults}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn
+                            DisplayMemberBinding="{Binding SchemaName}"
+                            Header="Schema Name" />
+                        <GridViewColumn
+                            DisplayMemberBinding="{Binding TableName}"
+                            Header="Table Name" />
+                        <GridViewColumn
+                            DisplayMemberBinding="{Binding ColumnName}"
+                            Header="Column Name" />
+                        <GridViewColumn
+                            DisplayMemberBinding="{Binding Value}"
+                            Header="Value" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
         </StackPanel>
     </Grid>
 </UserControl>

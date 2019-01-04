@@ -14,6 +14,7 @@
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -90,13 +91,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="BindingHelpers\PasswordHelper.cs" />
     <Compile Include="Components\ConnectionInformation.cs" />
     <Compile Include="Components\FileManaging\FileManager.cs" />
     <Compile Include="Components\ProjectSession.cs" />
     <Compile Include="Components\SearchCriteria.cs" />
+    <Compile Include="Components\SearchResults.cs" />
     <Compile Include="Components\SqlConnector.cs" />
     <Compile Include="Converters\BooleanInverter.cs" />
+    <Compile Include="Converters\CollapsedToVisibleConverter.cs" />
+    <Compile Include="Converters\VisibleToCollapsedConverter.cs" />
     <Compile Include="Views\Session\BlankSessionView.xaml.cs">
       <DependentUpon>BlankSessionView.xaml</DependentUpon>
     </Compile>
@@ -159,7 +162,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ViewModels\MainPage\" />
