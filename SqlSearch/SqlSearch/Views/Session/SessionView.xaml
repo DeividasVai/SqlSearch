@@ -60,9 +60,14 @@
         </StackPanel>
         <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="1">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button cal:Message.Attach="SearchByCriteria" Visibility="{Binding IsLoadingObjects, Converter={StaticResource VisibleToCollapsedConverter}}"></Button>
+                <Button cal:Message.Attach="SearchByCriteria" Visibility="{Binding IsLoadingObjects, Converter={StaticResource VisibleToCollapsedConverter}}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="0,0,10,0" Text="SEARCH"/>
+                        <materialDesign:PackIcon Margin="4 .5 0 0" Kind="DatabaseSearch"/>
+                    </StackPanel>
+                </Button>
                 <ProgressBar
-                    Style="{StaticResource MaterialDesignCircularProgressBar}"
+                    Style="{StaticResource MaterialDesignCircularProgressBar}" Margin="6"
                     Value="0" Visibility="{Binding IsLoadingObjects, Converter={StaticResource CollapsedToVisibleConverter}}"
                     IsIndeterminate="True"/>
             </StackPanel>

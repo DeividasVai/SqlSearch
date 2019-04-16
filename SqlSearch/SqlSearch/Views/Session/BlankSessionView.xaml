@@ -29,6 +29,12 @@
                     <materialDesign:PackIcon Margin="4 .5 0 0" Kind="CastConnected"/>
                 </StackPanel>
             </Button>
+            <Button Height="Auto" Width="Auto" cal:Message.Attach="[Event Click] = [OpenVM('DragDropTest')]" Margin="10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="0,0,10,0" Text="TESTER"/>
+                    <materialDesign:PackIcon Margin="4 .5 0 0" Kind="CastConnected"/>
+                </StackPanel>
+            </Button>
         </StackPanel>
         <!-- cal:Message.Attach="[Event Click] = [Action OpenVM('View1')]" -->
     </Grid>

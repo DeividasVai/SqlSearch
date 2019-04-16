@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Windows;
 using Caliburn.Micro;
 using SqlSearch.Components;
 using SqlSearch.Components.FileManaging;
 using SqlSearch.Views.Session;
+using DataFormats = System.Windows.Forms.DataFormats;
+using DragEventArgs = System.Windows.Forms.DragEventArgs;
+using Timer = System.Threading.Timer;
 
 namespace SqlSearch.ViewModels
 {
@@ -104,24 +108,14 @@ namespace SqlSearch.ViewModels
                 NotifyOfPropertyChange(() => FlyoutContent);
             }
         }
-        public string ConnectionTestVisibility
+        public bool IsTestingConnection
         {
-            get => _connectionTestVisibility;
+            get => _isTestingIsTestingConnection;
             set
             {
-                if (_connectionTestVisibility == value) return;
-                _connectionTestVisibility = value;
-                NotifyOfPropertyChange(() => ConnectionTestVisibility);
-            }
-        }
-        public string ProgressVisibility
-        {
-            get => _progressVisibility;
-            set
-            {
-                if (_progressVisibility == value) return;
-                _progressVisibility = value;
-                NotifyOfPropertyChange(() => ProgressVisibility);
+                if (_isTestingIsTestingConnection == value) return;
+                _isTestingIsTestingConnection = value;
+                NotifyOfPropertyChange(() => IsTestingConnection);
             }
         }
         public bool IsConnecting
@@ -171,14 +165,15 @@ namespace SqlSearch.ViewModels
         private SqlConnector _connection;
         private FileManager _fileManager;
         private MainPageViewModel _mainPageViewModel;
-        private string _progressVisibility;
-        private string _connectionTestVisibility;
         private string _connectionTest;
         private string _flyoutContent;
+        private bool _isTestingIsTestingConnection;
         private bool _showFlyout;
         private bool _isConnecting;
         private bool _isConnected;
         private bool _isLoadingObjects;
+        private System.Timers.Timer _aTimer;
+        private string _text;
 
         [ImportingConstructor]
         public SessionViewModel(MainPageViewModel mainPageViewModel)
@@ -278,6 +273,7 @@ namespace SqlSearch.ViewModels
         public async void SearchByCriteria()
         {
             IsLoadingObjects = true;
+            ActivateTimer();
         }
 
         public void OpenFlyout(string content)
@@ -291,16 +287,47 @@ namespace SqlSearch.ViewModels
             ShowFlyout = false;
         }
 
+        public string Text
+        {
+            get => _text;
+            set
+            {
+                if (value == _text) return;
+                _text = value;
+                NotifyOfPropertyChange();
+            }
+        }
+        
         private void ShowProgress()
         {
-            ConnectionTestVisibility = VisibilityStrings.Collapsed.ToString();
-            ProgressVisibility = VisibilityStrings.Visible.ToString();
+            IsTestingConnection = true;
         }
 
         private void HideProgress()
         {
-            ConnectionTestVisibility = VisibilityStrings.Visible.ToString();
-            ProgressVisibility = VisibilityStrings.Collapsed.ToString();
+            IsTestingConnection = false;
+        }
+
+        private void ActivateTimer()
+        {
+            _aTimer = new System.Timers.Timer {Interval = 2000};
+
+            // Hook up the Elapsed event for the timer. 
+            _aTimer.Elapsed += OnTimedEvent;
+
+            // Have the timer fire repeated events (true is the default)
+            //_aTimer.AutoReset = true;
+
+            // Start the timer
+            _aTimer.Enabled = true;
+        }
+
+        private void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e)
+        {
+            IsLoadingObjects = false;
+            _aTimer.Elapsed -= OnTimedEvent;
+            _aTimer.Enabled = false;
+            _aTimer = null;
         }
     }
 }

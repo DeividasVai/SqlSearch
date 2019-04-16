@@ -12,6 +12,17 @@ namespace SqlSearch.Components
         public string TableName { get; set; }
         public string ColumnName { get; set; }
         public string Value { get; set; }
+
+        public string FullQuery
+        {
+            get
+            {
+                _fullQuery = $"select *, {Value} from";
+                return _fullQuery;
+            }
+        }
+
+        private string _fullQuery;
     }
 }
 

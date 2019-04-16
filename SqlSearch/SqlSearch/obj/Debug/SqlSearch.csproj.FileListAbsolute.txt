@@ -88,3 +88,5 @@ D:\repos\SqlSearch\SqlSearch\SqlSearch\obj\Debug\SqlSearch.exe
 D:\repos\SqlSearch\SqlSearch\SqlSearch\obj\Debug\SqlSearch.pdb
 D:\repos\SqlSearch\SqlSearch\SqlSearch\bin\Debug\System.Linq.dll
 D:\repos\SqlSearch\SqlSearch\SqlSearch\obj\Debug\SqlSearch.csprojAssemblyReference.cache
+E:\repos\SqlSearch\SqlSearch\SqlSearch\obj\Debug\Views\Session\DragDropTest.g.cs
+E:\repos\SqlSearch\SqlSearch\SqlSearch\obj\Debug\Views\Session\DragDropTest.baml

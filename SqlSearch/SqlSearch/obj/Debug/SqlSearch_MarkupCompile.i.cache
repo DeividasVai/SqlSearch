@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-D:\repos\SqlSearch\SqlSearch\SqlSearch\obj\Debug\
+E:\repos\SqlSearch\SqlSearch\SqlSearch\obj\Debug\
 SqlSearch
 none
 false
 DEBUG;TRACE
-D:\repos\SqlSearch\SqlSearch\SqlSearch\App.xaml
-4417683817
+E:\repos\SqlSearch\SqlSearch\SqlSearch\App.xaml
+5762113886
 
-24-1860264685
-78567779232
-Views\MainPage.xaml;Views\Session\BlankSessionView.xaml;Views\Session\NewProjectView.xaml;Views\Session\SessionView.xaml;
+251371349162
+78787735688
+Views\MainPage.xaml;Views\Session\BlankSessionView.xaml;Views\Session\DragDropTest.xaml;Views\Session\NewProjectView.xaml;Views\Session\SessionView.xaml;
 
 False
 

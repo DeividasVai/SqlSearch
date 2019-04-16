@@ -103,6 +103,9 @@
     <Compile Include="Views\Session\BlankSessionView.xaml.cs">
       <DependentUpon>BlankSessionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Session\DragDropTest.xaml.cs">
+      <DependentUpon>DragDropTest.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Session\NewProjectView.xaml.cs">
       <DependentUpon>NewProjectView.xaml</DependentUpon>
     </Compile>
@@ -125,6 +128,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\Session\BlankSessionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Session\DragDropTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

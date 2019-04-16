@@ -118,12 +118,12 @@
 
         <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Bottom">
             <WrapPanel HorizontalAlignment="Center">
-                <Label HorizontalContentAlignment="Center" Visibility="{Binding ConnectionTestVisibility}" Content="{Binding ConnectionTest}"/>
+                <Label HorizontalContentAlignment="Center" Visibility="{Binding IsTestingConnection, Converter={StaticResource VisibleToCollapsedConverter}}" Content="{Binding ConnectionTest}"/>
                 <ProgressBar
                     Style = "{StaticResource MaterialDesignCircularProgressBar}"
                     Value="0"
                     IsIndeterminate="True" 
-                    Visibility="{Binding ProgressVisibility}"
+                    Visibility="{Binding IsTestingConnection, Converter={StaticResource CollapsedToVisibleConverter}}"
                     Margin="3.5"/>
             </WrapPanel>
             <WrapPanel  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
